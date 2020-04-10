@@ -24,14 +24,22 @@ class _HomePageState extends State<HomePage> {
       return Container();
     }
 
-    return Scaffold(
-      body: Center(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text(
               'Hangman',
               style: Theme.of(context).textTheme.title,
+            ),
+            SizedBox(
+              width: 80.w,
+              height: 80.w,
+              child: Image.asset('assets/images/hangman0.png'),
             ),
             SizedBox(
               width: 20.w,
