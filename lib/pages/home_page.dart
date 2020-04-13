@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../widgets/theme_switcher.dart';
+import '../pages/game_page.dart';
 import '../utils/hangman_theme.dart';
-import '../utils/screen_util.dart';
+import '../utils/screen_util.dart' as su;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -16,8 +17,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    if (!scalerInitialized) {
-      initializeScaler(context);
+    if (!su.scalerInitialized) {
+      su.initializeScaler(context);
 
       Timer.run(_setTheme);
 
@@ -44,9 +45,13 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               width: 20.w,
               height: 10.w,
-              child: RaisedButton(
-                child: Text("Start"),
-                onPressed: () => null,
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => GamePage(),
+                  ));
+                },
+                child: const Text('Start'),
               ),
             ),
           ],
@@ -55,5 +60,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _setTheme() => ThemeSwitcher.of(context).switchTheme(generateThemeDate());
+  void _setTheme() =>
+      ThemeSwitcher.of(context).switchTheme(generateThemeDate());
 }
