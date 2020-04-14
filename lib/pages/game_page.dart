@@ -45,12 +45,12 @@ class _GamePageState extends State<GamePage> {
                   );
                 }
             ),
-            StreamBuilder<String>(
-                initialData: _game.wordToGuess.toString(),
+            StreamBuilder<WordChangeEvent>(
+                initialData: WordChangeEvent(_game.wordToGuess.wordForDisplay, [HangmanWord.blank]),
                 stream: _game.onWordChange,
                 builder: (BuildContext context,
-                    AsyncSnapshot<String> snapshot) {
-                  return WordDisplay(word: snapshot.data);
+                    AsyncSnapshot<WordChangeEvent> snapshot) {
+                  return WordDisplay(event: snapshot.data);
                 }
             ),
             StreamBuilder<GameStatus>(

@@ -20,8 +20,8 @@ class HangmanGame {
 
   HangmanGame(List<String> words) : _wordList = words.toList();
 
-  final _onWordChange = StreamController<String>.broadcast();
-  Stream<String> get onWordChange => _onWordChange.stream;
+  final _onWordChange = StreamController<WordChangeEvent>.broadcast();
+  Stream<WordChangeEvent> get onWordChange => _onWordChange.stream;
 
   final _onLetterGuessed = StreamController<List<String>>.broadcast();
   Stream<List<String>> get onLetterGuessed  => _onLetterGuessed.stream;
@@ -39,7 +39,7 @@ class HangmanGame {
     _lettersGuessed.clear();
     _status = GameStatus.playing;
 
-    _broadcastWordChange();
+    _broadcastWordChange([HangmanWord.blank]);
     _broadcastWrongGuessesChange();
     _broadcastLetterGuessed();
     _broadcastStatusChange();
@@ -51,7 +51,7 @@ class HangmanGame {
     _broadcastLetterGuessed();
 
     if (_wordToGuess.guessLetter(letter)) {
-      _broadcastWordChange();
+      _broadcastWordChange([letter]);
 
       if (_lettersGuessed.length >= _wordToGuess.uniqueLettersCount && _wordToGuess.isWordComplete) {
         _status = GameStatus.won;
@@ -64,37 +64,40 @@ class HangmanGame {
 
       if (isHanged) {
         _status = GameStatus.lost;
-        _wordToGuess.revealWord();
 
+        _broadcastWordChange(_wordToGuess.revealWord());
         _broadcastStatusChange();
-        _broadcastWordChange();
       }
     }
   }
 
-  void _broadcastWordChange() => _onWordChange.add(wordToGuess.toString());
+  void _broadcastWordChange(List<String> newCharacters) {
+    final event = WordChangeEvent(wordToGuess.wordForDisplay, newCharacters);
+    _onWordChange.add(event);
+  }
+
   void _broadcastLetterGuessed() => _onLetterGuessed.add(lettersGuessed);
   void _broadcastWrongGuessesChange() => _onWrongGuessesChange.add(wrongGuesses);
   void _broadcastStatusChange() => _onStatusChange.add(status);
 
-  bool get isHanged => _wrongGuesses >= hanged;
+    bool get isHanged => _wrongGuesses >= hanged;
 
-  @override
-  String toString() {
-    return """
+    @override
+    String toString() {
+      return """
 Gallows: $wrongGuesses
 $wordToGuess
 $_lettersGuessed
 """;
-  }
+    }
 
-  void dispose() {
-    _onWordChange.close();
-    _onLetterGuessed.close();
-    _onWrongGuessesChange.close();
-    _onStatusChange.close();
+    void dispose() {
+      _onWordChange.close();
+      _onLetterGuessed.close();
+      _onWrongGuessesChange.close();
+      _onStatusChange.close();
+    }
   }
-}
 
 class HangmanWord {
   static const blank = '_';
@@ -103,7 +106,7 @@ class HangmanWord {
   final int uniqueLettersCount;
 
   List<String> _wordForDisplay;
-  String get wordForDisplay => _wordForDisplay.join();
+  List<String> get wordForDisplay => _wordForDisplay;
 
   HangmanWord(this.word) : uniqueLettersCount = word.split('').toSet().length {
     _wordForDisplay = List<String>.filled(word.length, blank);
@@ -119,18 +122,39 @@ class HangmanWord {
     return indexes.isNotEmpty;
   }
 
-  void revealWord() => _wordForDisplay = word.split('');
+  List<String> revealWord() {
+    final Set<String> missingLetters = {};
+    final missingLetterIndexes = toString().allIndexesOf(blank);
+
+    for (int i in missingLetterIndexes) {
+      missingLetters.add(word[i]);
+    }
+
+    _wordForDisplay = word.split('');
+
+    return missingLetters.toList();
+  }
 
   bool get isWordComplete => !_wordForDisplay.contains(blank);
 
   @override
-  String toString() => wordForDisplay;
+  String toString() => wordForDisplay.join();
 }
 
 enum GameStatus {
   playing,
   won,
   lost
+}
+
+class WordChangeEvent {
+  final List<String> word;
+  final List<String> newCharacters;
+
+  const WordChangeEvent(this.word, this.newCharacters);
+
+  @override
+  String toString() => "Word: ${word.join()}\nNew: $newCharacters";
 }
 
 extension StringUtils on String {
