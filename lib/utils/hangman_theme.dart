@@ -15,7 +15,7 @@ ThemeData generateThemeDate() {
       ),
       button: TextStyle(
         fontFamily: 'VTC',
-        fontSize: 3.h,
+        fontSize: 15.f,
       ),
     ),
     buttonTheme: ButtonThemeData(

@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
 import '../models/hangman.dart';
+import '../utils/screen_util.dart';
 
 class WordDisplay extends StatelessWidget {
-  static const letterSpacing = 15.0;
+  static const letterSpacing = 24.0;
 
   final WordChangeEvent event;
 
-  const WordDisplay({Key key, @required this.event,}) : super(key: key);
+  const WordDisplay({
+    Key key,
+    @required this.event,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +20,27 @@ class WordDisplay extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: event.word.map((String letter) {
-        final text = Text(
-          letter,
-          style: style,
-        );
+      children: event.word
+          .map((String letter) {
+            final text = SizedBox(
+              width: 14.f,
+              child: Text(
+                letter,
+                style: style,
+              ),
+            );
 
-        return event.newCharacters.contains(letter) ?
-        FadeInUp(
-          key: ObjectKey(text),
-          child: text,
-        ) :
-        text;
-      }).toList().joinList(SizedBox(width: letterSpacing,)),
+            return event.newCharacters.contains(letter)
+                ? FadeInUp(
+                    key: ObjectKey(text),
+                    child: text,
+                  )
+                : text;
+          })
+          .toList()
+          .joinList(SizedBox(
+            width: letterSpacing,
+          )),
     );
   }
 }

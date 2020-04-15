@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/screen_util.dart';
+
 typedef LetterPressedCallback = void Function(String letter);
 
 class LetterSelection extends StatelessWidget {
@@ -18,10 +20,13 @@ class LetterSelection extends StatelessWidget {
       ),
       child: Wrap(
         children: alphabet.map((String letter) {
-          return FlatButton(
-            onPressed: lettersGuessed.contains(letter) ? null : () => onLetterPressed(letter),
-            child: Text(letter),
-              );
+          return SizedBox(
+            width: 11.w,
+            child: FlatButton(
+              onPressed: lettersGuessed.contains(letter) ? null : () => onLetterPressed(letter),
+              child: Text(letter),
+                ),
+          );
             }).toList(),
       ),
     );

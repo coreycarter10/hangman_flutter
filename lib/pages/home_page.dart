@@ -42,9 +42,10 @@ class _HomePageState extends State<HomePage> {
               height: 80.w,
               child: Image.asset('assets/images/hangman0.png'),
             ),
-            SizedBox(
-              width: 20.w,
-              height: 10.w,
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 5.h,
+              ),
               child: FlatButton(
                 onPressed: () {
                   Navigator.pushReplacement(context, MaterialPageRoute(
