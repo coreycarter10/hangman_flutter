@@ -3,42 +3,12 @@ import 'package:animate_do/animate_do.dart';
 
 import '../models/hangman.dart';
 
-class WordDisplay extends StatefulWidget {
+class WordDisplay extends StatelessWidget {
+  static const letterSpacing = 15.0;
+
   final WordChangeEvent event;
 
   const WordDisplay({Key key, @required this.event,}) : super(key: key);
-
-  @override
-  _WordDisplayState createState() => _WordDisplayState();
-}
-
-class _WordDisplayState extends State<WordDisplay> {
-  static const letterSpacing = 15.0;
-
-  AnimationController _animateController;
-
-  @override
-  Widget build_old(BuildContext context) {
-
-    if (_animateController != null && !_animateController.isAnimating) {
-      _animateController?.reset();
-      _animateController?.forward();
-    }
-
-    return FadeInUp(
-      manualTrigger: true,
-      controller: (AnimationController ctrl) {
-        _animateController = ctrl;
-        _animateController?.forward();
-      },
-      child: Text(
-        widget.event.word.join(),
-        style: Theme.of(context).textTheme.display1.copyWith(
-          letterSpacing: letterSpacing,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +16,18 @@ class _WordDisplayState extends State<WordDisplay> {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: widget.event.word.map((String letter) {
+      children: event.word.map((String letter) {
         final text = Text(
           letter,
           style: style,
         );
 
-        return widget.event.newCharacters.contains(letter) ? FadeInUp(child: text) : text;
+        return event.newCharacters.contains(letter) ?
+        FadeInUp(
+          key: ObjectKey(text),
+          child: text,
+        ) :
+        text;
       }).toList().joinList(SizedBox(width: letterSpacing,)),
     );
   }
