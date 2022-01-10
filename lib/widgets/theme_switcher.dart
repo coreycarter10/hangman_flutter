@@ -11,14 +11,14 @@ class ThemeSwitcher extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(ThemeSwitcher old) => this != old;
+  bool updateShouldNotify(ThemeSwitcher oldWidget) => this != oldWidget;
 }
 
 class ThemeSwitcherWidget extends StatefulWidget {
   final ThemeData initialTheme;
   final Widget child;
 
-  ThemeSwitcherWidget({Key key, @required this.initialTheme, @required this.child}) :
+  const ThemeSwitcherWidget({Key key, @required this.initialTheme, @required this.child}) :
         assert(initialTheme != null), assert(child != null), super(key: key);
 
   @override

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
 
 import '../models/hangman.dart';
 import '../utils/screen_util.dart';
@@ -16,7 +16,7 @@ class WordDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.display1;
+    final style = Theme.of(context).textTheme.headline4;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -38,20 +38,22 @@ class WordDisplay extends StatelessWidget {
                 : text;
           })
           .toList()
-          .joinList(SizedBox(
+          .joinList(const SizedBox(
             width: letterSpacing,
           )),
     );
   }
 }
 
-extension ListUtils on List {
+extension ListUtils on List<Widget> {
   List<Widget> joinList(Widget separator) {
     final Iterator<Widget> iterator = this.iterator;
 
     final List<Widget> result = [];
 
-    if (!iterator.moveNext()) return result;
+    if (!iterator.moveNext()) {
+      return result;
+    }
 
     result.add(iterator.current);
 

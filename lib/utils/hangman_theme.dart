@@ -5,11 +5,11 @@ import 'screen_util.dart';
 ThemeData generateThemeDate() {
   return ThemeData.dark().copyWith(
     textTheme: ThemeData.dark().textTheme.copyWith(
-      title: TextStyle(
+      headline6: TextStyle(
         fontFamily: 'VTC',
         fontSize: 25.f,
       ),
-      display1: TextStyle(
+      headline4: TextStyle(
         fontFamily: 'VTC',
         fontSize: 18.f,
       ),

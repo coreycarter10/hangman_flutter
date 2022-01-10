@@ -1,6 +1,5 @@
+import 'package:english_words/english_words.dart' as eng_words;
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart' as engWords;
-import 'package:hangman/widgets/word_display.dart';
 
 import '../models/hangman.dart';
 import '../utils/screen_util.dart';
@@ -18,7 +17,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
 
-    final List<String> wordList = engWords.all.where((String word) => word.length > 2 && word.length < 8).map((String word) => word.toUpperCase()).toList();
+    final List<String> wordList = eng_words.all.where((String word) => word.length > 2 && word.length < 8).map((String word) => word.toUpperCase()).toList();
     _game = HangmanGame(wordList)..newGame();
   }
 
@@ -33,7 +32,7 @@ class _GamePageState extends State<GamePage> {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
+          children: [
             StreamBuilder<int>(
                 initialData: _game.wrongGuesses,
                 stream: _game.onWrongGuessesChange,
@@ -99,21 +98,22 @@ class _GamePageState extends State<GamePage> {
       }
 
       return Column(
-        children: <Widget>[
+        children: [
           Text(
             msg,
-            style: Theme.of(context).textTheme.display1.copyWith(
+            style: Theme.of(context).textTheme.headline4.copyWith(
               color: textColor,
             ),
           ),
-          SizedBox(height: 2.h,),
-          FlatButton(
+          SizedBox(height: 2.h),
+          TextButton(
             onPressed: () => _game.newGame(),
             child: const Text('Play Again'),
           ),
         ],
       );
     }
+
 
   @override
   void dispose() {

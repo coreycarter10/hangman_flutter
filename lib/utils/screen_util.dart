@@ -14,9 +14,9 @@ void initializeScaler(BuildContext context) {
 }
 
 extension ScreenScalerPercentages on int {
-  double get w => scaler.getWidth(this.toDouble());
-  double get h => scaler.getHeight(this.toDouble());
-  double get f => scaler.getTextSize(this.toDouble());
+  double get w => scaler.getWidth(toDouble());
+  double get h => scaler.getHeight(toDouble());
+  double get f => scaler.getTextSize(toDouble());
 }
 
 extension ScreenScalerPercentagesDouble on double {

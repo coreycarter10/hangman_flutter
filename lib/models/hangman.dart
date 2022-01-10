@@ -115,7 +115,7 @@ class HangmanWord {
   bool guessLetter(String letter) {
     final indexes = word.allIndexesOf(letter);
 
-    for (int i in indexes) {
+    for (final int i in indexes) {
       _wordForDisplay[i] = letter;
     }
 
@@ -126,7 +126,7 @@ class HangmanWord {
     final Set<String> missingLetters = {};
     final missingLetterIndexes = toString().allIndexesOf(blank);
 
-    for (int i in missingLetterIndexes) {
+    for (final int i in missingLetterIndexes) {
       missingLetters.add(word[i]);
     }
 
@@ -144,7 +144,7 @@ class HangmanWord {
 enum GameStatus {
   playing,
   won,
-  lost
+  lost,
 }
 
 class WordChangeEvent {
@@ -161,7 +161,7 @@ extension StringUtils on String {
   List<int> allIndexesOf(String pattern) {
     final List<int> result = [];
 
-    for (int i = 0; i < this.length; i++) {
+    for (int i = 0; i < length; i++) {
       if (this[i] == pattern) {
         result.add(i);
       }

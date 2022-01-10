@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'widgets/theme_switcher.dart';
 import 'pages/home_page.dart';
+import 'widgets/theme_switcher.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations(
@@ -22,7 +22,7 @@ class HangmanApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hangman',
       theme: ThemeSwitcher.of(context).themeData,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

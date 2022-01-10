@@ -15,14 +15,14 @@ class LetterSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         maxWidth: 800,
       ),
       child: Wrap(
         children: alphabet.map((String letter) {
           return SizedBox(
             width: 11.w,
-            child: FlatButton(
+            child: TextButton(
               onPressed: lettersGuessed.contains(letter) ? null : () => onLetterPressed(letter),
               child: Text(letter),
                 ),
